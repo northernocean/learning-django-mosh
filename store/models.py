@@ -10,6 +10,7 @@ class Promotion(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
@@ -37,8 +38,8 @@ class Order(models.Model):
     PAYMENT_STATUS_COMPLETE='C'
     PAYMENT_STATUS_FAILED='F'
     PAYMENT_STATUS_OPTIONS=[PAYMENT_STATUS_PENDING, PAYMENT_STATUS_COMPLETE, PAYMENT_STATUS_FAILED]
-    placed_at = DateTimeField(auto_now_add=True)
-    payment_status = CharField(max_length=1, choices=PAYMENT_STATUS_OPTIONS, default=PAYMENT_STATUS_PENDING)
+    placed_at = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_OPTIONS, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
 class OrderItem(models.Model):
