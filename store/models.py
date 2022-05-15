@@ -4,6 +4,10 @@ from random import choices
 from django.db import models
 from django.forms import CharField, DateField, DateTimeField
 
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.DecimalField(max_digits=3, decimal_places=2)
+
 class Collection(models.Model):
     title = models.CharField(max_length=255)
 
@@ -14,6 +18,7 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
+    promotions = models.ManyToManyField(Promotion, related_name='products')
 
 class Customer(models.Model):
     MEMBERSHIP_BRONZE = 'B'
