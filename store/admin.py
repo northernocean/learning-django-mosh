@@ -1,6 +1,8 @@
-from csv import list_dialects
 from django.contrib import admin
+from django.http import HttpRequest
+from django.db.models import Count
 from . import models
+
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -18,6 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
             return 'Low'
         return 'OK'
 
+
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['last_name', 'first_name', 'membership']
@@ -25,10 +28,23 @@ class CustomerAdmin(admin.ModelAdmin):
     list_editable = ['membership']
     list_per_page: 10
 
-admin.site.register(models.Collection)
+
+@admin.register(models.Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'products_count']
+
+    @admin.display(ordering='products_count')
+    def products_count(self, collection):
+        return collection.products_count
+    
+    def get_queryset(self, request: HttpRequest):
+        return super().get_queryset(request).annotate(
+            products_count = Count('product')
+        )
 
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'placed_at', 'customer']
     list_per_page = 20
     list_select_related = ['customer']
