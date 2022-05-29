@@ -1,9 +1,13 @@
+from cProfile import label
 from django.contrib import admin
 from django.contrib import messages
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.http import HttpRequest
 from django.db.models import Count
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
+
+from tags.models import TaggedItem
 from . import models
 
 
@@ -90,9 +94,15 @@ class OrderAdmin(admin.ModelAdmin):
 # -------
 # PRODUCT
 # -------
+
+class TagInline(GenericTabularInline):
+    autocomplete_fields = ['tag']
+    model = TaggedItem
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ['collection']
+    inlines = [TagInline]
     prepopulated_fields = {
         'slug': ['title']
     }
