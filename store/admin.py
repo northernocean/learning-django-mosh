@@ -5,6 +5,19 @@ from django.urls import reverse
 from django.utils.html import format_html, urlencode
 from . import models
 
+
+class InventoryFilter(admin.SimpleListFilter):
+    title = 'inventory'
+    parameter_name = 'inventory'
+
+    def lookups(self, request, model_admin):
+        return [('<10', 'Low')]
+    
+    def queryset(self, request, queryset):
+        if self.value() == '<10':
+            return queryset.filter(inventory__lt=10)
+
+
 # --------
 # CUSTOMER
 # --------
@@ -70,6 +83,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['unit_price']
     list_per_page = 20
     list_select_related = ['collection']
+    list_filter = ['collection', 'last_update', InventoryFilter]
 
     def collection_title(self, product):
         return product.collection.title
