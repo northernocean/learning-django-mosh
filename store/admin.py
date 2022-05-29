@@ -6,29 +6,26 @@ from django.utils.html import format_html, urlencode
 from . import models
 
 
-@admin.register(models.Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']
-    list_editable = ['unit_price']
-    list_per_page = 20
-    list_select_related = ['collection']
-
-    def collection_title(self, product):
-        return product.collection.title
-
-    @admin.display(ordering='inventory')
-    def inventory_status(self, product):
-        if product.inventory < 10:
-            return 'Low'
-        return 'OK'
-
-
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['last_name', 'first_name', 'membership']
+    list_display = ['last_name', 'first_name', 'membership','orders']
     ordering = ['last_name', 'first_name']
     list_editable = ['membership']
     list_per_page: 10
+
+    @admin.display(ordering='orders_count')
+    def orders(self, customer):
+        url = (
+            reverse('admin:store_order_changelist')
+            + '?'
+            + urlencode({
+                'customer__id': str(customer.id)
+            }))
+        return format_html('<a href="{}">{} Orders</a>', url, customer.orders_count)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            orders_count=Count('order'))        
 
 
 @admin.register(models.Collection)
@@ -55,4 +52,21 @@ class CollectionAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'placed_at', 'customer']
     list_per_page = 20
-    list_select_related = ['customer']
+    #list_select_related = ['customer']
+
+
+@admin.register(models.Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']
+    list_editable = ['unit_price']
+    list_per_page = 20
+    list_select_related = ['collection']
+
+    def collection_title(self, product):
+        return product.collection.title
+
+    @admin.display(ordering='inventory')
+    def inventory_status(self, product):
+        if product.inventory < 10:
+            return 'Low'
+        return 'OK'
