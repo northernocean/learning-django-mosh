@@ -5,13 +5,16 @@ from django.urls import reverse
 from django.utils.html import format_html, urlencode
 from . import models
 
-
+# --------
+# CUSTOMER
+# --------
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['last_name', 'first_name', 'membership','orders']
     ordering = ['last_name', 'first_name']
     list_editable = ['membership']
-    list_per_page: 10
+    list_per_page = 10
+    search_fields = ['first_name__istartswith', 'last_name__istartswith'] 
 
     @admin.display(ordering='orders_count')
     def orders(self, customer):
@@ -27,7 +30,9 @@ class CustomerAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(
             orders_count=Count('order'))        
 
-
+# ----------
+# COLLECTION
+# ----------
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'products_count']
@@ -47,14 +52,18 @@ class CollectionAdmin(admin.ModelAdmin):
             products_count = Count('product')
         )
 
-
+# -----
+# ORDER
+# ----- 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'placed_at', 'customer']
     list_per_page = 20
     #list_select_related = ['customer']
 
-
+# -------
+# PRODUCT
+# -------
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']
