@@ -1,11 +1,9 @@
-from turtle import st
-from urllib import response
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from store.models import Product
 from store.serialize import ProductSerializer
+from rest_framework import status
 
 
 @api_view()
@@ -15,10 +13,6 @@ def product_list(request):
 
 @api_view()
 def product_detail(request, id):
-    
-    try:
-        product = Product.objects.get(pk=id)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data, status=200)
-    except Product.DoesNotExist as ex:
-        return Response(status=404)
+    product = get_object_or_404(Product, pk=id)
+    serializer = ProductSerializer(product)
+    return Response(serializer.data)
