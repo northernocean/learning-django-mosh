@@ -8,7 +8,7 @@ from rest_framework import status
 
 @api_view()
 def product_list(request):
-    queryset = Product.objects.select_related('collection').all()
+    queryset = Product.objects.all()
     serializer = ProductSerializer(queryset, many = True)
     return Response(serializer.data)
 
