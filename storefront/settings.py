@@ -89,7 +89,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'storefront2',
-        'HOST': '192.168.0.186',
+        'HOST': '192.168.0.186', # caledonia
         'USER': 'kermit',
         'PASSWORD': 'muppets'
     }
