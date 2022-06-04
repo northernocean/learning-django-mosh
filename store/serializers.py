@@ -3,7 +3,7 @@ from math import prod
 from unittest.util import _MAX_LENGTH
 from django.forms import CharField, IntegerField
 from rest_framework import serializers
-from store.models import Product, Collection
+from store.models import Product, Collection, Review
 from decimal import Decimal
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -24,3 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return product.unit_price * Decimal(1.1)
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'product', 'name', 'description', 'date']

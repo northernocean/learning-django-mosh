@@ -10,8 +10,8 @@ from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
-from store.models import OrderItem, Product, Collection
-from .serializers import CollectionSerializer, ProductSerializer
+from store.models import OrderItem, Product, Collection, Review
+from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
 from rest_framework import status
 
 
@@ -40,5 +40,9 @@ class ProductViewSet(ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
+class ReviewViewSet(ModelViewSet):
+    
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 
