@@ -1,4 +1,5 @@
-from rest_framework_nested import routers, DefaultRouter
+from rest_framework_nested import routers
+from rest_framework_nested.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
