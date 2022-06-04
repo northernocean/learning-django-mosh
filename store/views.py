@@ -3,14 +3,20 @@ from multiprocessing import context
 from os import stat
 from urllib import response
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.generics import ListCreateAPIView
-from store.models import Product
-from .serializers import ProductSerializer
+from store.models import Product, Collection
+from .serializers import CollectionSerializer, ProductSerializer
 from rest_framework import status
+
+class CollectionList(ListCreateAPIView):
+
+    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+    serializer_class = CollectionSerializer
 
 
 class ProductList(ListCreateAPIView):
@@ -43,7 +49,4 @@ class ProductDetail(APIView):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view()
-def collection_detail(request, pk):
-    return Response('ok')
 
