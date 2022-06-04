@@ -32,7 +32,6 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'id' # or use default convention of calling url parameter pk
 
     def delete(self, request, id):
         product = get_object_or_404(Product, pk=id)
