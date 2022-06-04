@@ -19,9 +19,22 @@ class CollectionList(ListCreateAPIView):
     serializer_class = CollectionSerializer
 
 
+class CollectionDetail(ListCreateAPIView):
+    
+    queryset = Collection.objects.annotate(products_count=Count('products'))
+    serializer_class = CollectionSerializer
+
+    def delete(self, request, pk):
+        collection = get_object_or_404(Collection, pk=pk)
+        if collection.products.count() > 0:
+            return Response({'error': 'Collection cannot be deleted since it contains products'})
+        collection.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ProductList(ListCreateAPIView):
 
-    queryset = Product.objects.select_related('collection').all()
+    queryset = Product.objects.all()
     serializer_class  = ProductSerializer
 
     def get_serializer_context(self):
