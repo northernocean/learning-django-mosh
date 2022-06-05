@@ -27,7 +27,6 @@ class ProductViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['collection_id']
     search_fields = ['title', 'description']
-    ordering_fields = ['unit_price', 'last_update']
     
     def get_serializer_context(self):
         return { 'request': self.request }
