@@ -1,13 +1,16 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from uuid import uuid4
 
 
 class Promotion(models.Model):
+    id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=255)
     discount = models.FloatField()
 
 
 class Collection(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
@@ -20,6 +23,7 @@ class Collection(models.Model):
 
 
 class Product(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField(null=True, blank=True)
@@ -40,6 +44,7 @@ class Product(models.Model):
 
 
 class Customer(models.Model):
+    id = models.AutoField(primary_key=True)
     MEMBERSHIP_BRONZE = 'B'
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
@@ -65,6 +70,7 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
+    id = models.AutoField(primary_key=True)
     PAYMENT_STATUS_PENDING = 'P'
     PAYMENT_STATUS_COMPLETE = 'C'
     PAYMENT_STATUS_FAILED = 'F'
@@ -81,6 +87,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orderitems')
     quantity = models.PositiveSmallIntegerField()
@@ -88,6 +95,7 @@ class OrderItem(models.Model):
 
 
 class Address(models.Model):
+    id = models.AutoField(primary_key=True)
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     customer = models.ForeignKey(
@@ -95,15 +103,21 @@ class Address(models.Model):
 
 
 class Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
 
+    class Meta:
+        unique_together = [['cart', 'product']]
+
 class Review(models.Model):
+    id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     name = models.CharField(max_length=255)
     description = models.TextField()
