@@ -1,16 +1,9 @@
-from itertools import product
-from logging import raiseExceptions
-from multiprocessing import context
-from os import stat
-from urllib import response
+from encodings import search_function
 from django.shortcuts import get_object_or_404
-from django.db.models import Count
+from django.db.models.aggregates import Count
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.decorators import api_view
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from store.models import OrderItem, Product, Collection, Review
 from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
@@ -30,15 +23,12 @@ class CollectionViewSet(ModelViewSet):
 
 class ProductViewSet(ModelViewSet):
 
+    queryset = Product.objects.all()
     serializer_class  = ProductSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['collection_id']
+    search_fields = ['title', 'description']
     
-    def get_queryset(self):
-        queryset = Product.objects.all()
-        collection_id = self.request.query_params.get('collection_id')
-        if collection_id is not None:
-            queryset = queryset.filter(collection_id=self.request.query_params['collection_id'])
-        return queryset
-
     def get_serializer_context(self):
         return { 'request': self.request }
 
