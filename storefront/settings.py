@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -25,6 +26,7 @@ SECRET_KEY = 'django-insecure-hs6j037urx6iav+7#10%-vu4l4f5@@-1_zo)oft4g7$vf2$jmp
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -57,7 +59,9 @@ MIDDLEWARE = [
 ]
 
 INTERNAL_IPS = [
+    # ...
     '127.0.0.1',
+    # ...
 ]
 
 ROOT_URLCONF = 'storefront.urls'
@@ -80,18 +84,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'storefront.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'storefront2',
-        'HOST': '192.168.0.186', # caledonia
-        'USER': 'kermit',
-        'PASSWORD': 'muppets'
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'MyPassword'
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -111,6 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -124,6 +131,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -135,5 +143,5 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
+    'COERCE_DECIMAL_TO_STRING': False
 }

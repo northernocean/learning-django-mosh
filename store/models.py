@@ -3,13 +3,11 @@ from django.db import models
 
 
 class Promotion(models.Model):
-    id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=255)
     discount = models.FloatField()
 
 
 class Collection(models.Model):
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
@@ -22,7 +20,6 @@ class Collection(models.Model):
 
 
 class Product(models.Model):
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField(null=True, blank=True)
@@ -106,9 +103,8 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
 
-
 class Review(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     name = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField(auto_now_add=True)
