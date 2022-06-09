@@ -115,6 +115,9 @@ class CartItem(models.Model):
     class Meta:
         unique_together = [['cart', 'product']]
 
+    def __str__(self):
+        return f'{self.product} (quantity {str(self.quantity)})'
+
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
