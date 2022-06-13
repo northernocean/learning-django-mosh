@@ -41,5 +41,4 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ['id','items']
 
 class CartItemSerializer(serializers.ModelSerializer):
-    pass    
-
+    pass
