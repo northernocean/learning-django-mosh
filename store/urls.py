@@ -1,5 +1,6 @@
 from django.urls import path
 from django.urls.conf import include
+from django.core.exceptions import FieldDoesNotExist
 from rest_framework_nested import routers
 from . import views
 
