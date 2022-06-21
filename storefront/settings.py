@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'storefront2',
         'HOST': '192.168.0.186',
         'USER': 'kermit',
-        'PASSWORD': 'muppets'
+        'PASSWORD': 'Thr33_Muppets'
     }
 }
 
