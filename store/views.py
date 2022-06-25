@@ -15,8 +15,9 @@ from store.permissions import ViewCustomerHistoryPermission
 
 from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
 from .filters import ProductFilter
-from .models import CartItem, Collection, Customer, Product, Review, Cart
-from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CollectionSerializer, CustomerSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
+from .models import Cart, CartItem, Collection, Customer, Order, Product, Review
+from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, \
+    CollectionSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
 from store import serializers
 
 
@@ -116,5 +117,8 @@ class CustomerViewSet(ModelViewSet):
             return Response(serializer.data)
 
 
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
     
