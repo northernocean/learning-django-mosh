@@ -1,4 +1,5 @@
 from decimal import Decimal
+from itertools import product
 from xml.dom.minidom import ReadOnlySequentialNamedNodeMap
 from store.models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, Review
 from rest_framework import serializers
@@ -106,7 +107,18 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = SimpleProductSerializer()
+
     class Meta:
         model = OrderItem
-        fields = ['id', 'order', 'product', 'quantity', 'unit_price']
+        fields = ['id', 'product', 'unit_price', 'quantity']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    orderitems = OrderItemSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'placed_at', 'payment_status', 'orderitems']
 

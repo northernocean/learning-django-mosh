@@ -1,4 +1,5 @@
 from os import curdir
+from pyexpat import model
 from store.pagination import DefaultPagination
 from django.db.models.aggregates import Count
 from django.shortcuts import get_object_or_404
@@ -13,9 +14,9 @@ from rest_framework import status
 from store.permissions import ViewCustomerHistoryPermission
 from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
 from .filters import ProductFilter
-from .models import Cart, CartItem, Collection, Customer, OrderItem, Product, Review
+from .models import Cart, CartItem, Collection, Customer, Order, OrderItem, Product, Review
 from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, \
-    CollectionSerializer, CustomerSerializer, OrderItemSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
+    CollectionSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
 from store import serializers
 
 
@@ -116,7 +117,5 @@ class CustomerViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    serializer_class = OrderItemSerializer
-
-    def get_queryset(self):
-        return OrderItem.objects.all().select_related('product')
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
