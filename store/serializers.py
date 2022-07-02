@@ -122,3 +122,9 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'customer', 'placed_at', 'payment_status', 'orderitems']
 
+class CreateOrderSerializer(serializers.Serializer):
+    cart_id = serializers.IntegerField()
+
+    def save(self, **kwargs):
+        print(self.validated_data['cart_id'])
+        self.context['user_id']
