@@ -2,11 +2,11 @@
 user_id | user   | name (first last) | password | customer_id | notes
 ------- | ------ | ----------------- | -------- | ----------- | -----
 1       | kermit | Kermit Frog       | muppets  |             | superuser
-2       | mpiggy |  Miss Piggy       | muppets  | 1           | 
-3       |  fozzy |  Fozzy Bear       | muppets  | 2           | staff
-4       |  rowlf |  Rowlf Dog        | muppets  | 3           | 
-5       |    sam |  Sam Eagle        | muppets  | 4           | 
-6       |  rizzo |  Rizzo Rat        | muppets  |             | 
+2       |  fozzy |  Fozzy Bear       | muppets  |             | staff
+3       |  rowlf |  Rowlf Dog        | muppets  | 1           | 
+4       | mpiggy |  Miss Piggy       | muppets  | 2           | 
+5       |    sam |  Sam Eagle        | muppets  | 3           | 
+6       |  rizzo |  Rizzo Rat        | muppets  | 4           | 
 */
 
 -- Note that the passwords are not strong - remove or comment out the
@@ -45,9 +45,9 @@ alter sequence core_user_id_seq restart with 1;
 insert into core_user (password, last_login, is_superuser, username, first_name, last_name, is_staff, is_active, date_joined, email)
 values
 	('password123',NULL,True,'kermit','Kermit','Frog',True,True,'2022-06-26 19:17:04.177521+00','kermit@example.com'),
-	('password123',NULL,False,'mpiggy','Miss','Piggy',False,True,'2022-06-26 19:20:41.180221+00','mpiggy@example.com'),
-	('password123',NULL,False,'fozzy','Fozzy','Bear',False,True,'2022-06-26 19:21:00.39305+00','fozzy@example.com'),
+	('password123',NULL,False,'fozzy','Fozzy','Bear',True,True,'2022-06-26 19:21:00.39305+00','fozzy@example.com'),
 	('password123',NULL,False,'rowlf','Rowlf','Dog',False,True,'2022-06-26 19:21:22.968066+00','rowlf@example.com'),
+	('password123',NULL,False,'mpiggy','Miss','Piggy',False,True,'2022-06-26 19:20:41.180221+00','mpiggy@example.com'),
 	('password123',NULL,False,'sam','Sam','Eagle',False,True,'2022-06-26 19:25:10.692801+00','sam@example.com'),
 	('password123',NULL,False,'rizzo','Rizzo','Rat',False,True,'2022-06-26 19:25:10.692801+00','rizzo@example.com');
 
@@ -56,10 +56,10 @@ update core_user set password = 'pbkdf2_sha256$260000$C3iOoWaCNHmJUWvRfcW1DQ$vtG
 
 insert into store_customer (phone, birth_date, membership, user_id)
 values
-	('897-661-9039','2020-10-28','G',2),
-	('649-120-2330','2020-07-16','G',3),
-	('434-940-7359','2021-04-28','S',4),
-	('326-516-2283','2021-05-22','B',5);
+	('897-661-9039','2020-10-28','G',3),
+	('649-120-2330','2020-07-16','G',4),
+	('434-940-7359','2021-04-28','S',5),
+	('326-516-2283','2021-05-22','B',6);
 
 insert into store_collection (title, featured_product_id)
 values
@@ -130,7 +130,7 @@ values
 
 insert into core_user_groups (user_id, group_id)
 values
-    (3, 1);
+    (2, 1);
 
 insert into auth_group_permissions (group_id, permission_id)
 values
