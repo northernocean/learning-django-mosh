@@ -118,7 +118,6 @@ class CustomerViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     permission_classes = [AllowAny]
-    serializer_class = OrderSerializer
 
     def get_serializer_class(self):
         if self.request.method == 'POST':

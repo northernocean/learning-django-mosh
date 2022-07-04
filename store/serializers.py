@@ -125,5 +125,5 @@ class CreateOrderSerializer(serializers.Serializer):
     cart_id = serializers.IntegerField()
 
     def save(self, **kwargs):
-        print(self.validated_data['cart_id'])
-        self.context['user_id']
+        customer = Customer.objects.get(user_id=self.context['user_id'])
+        Order.objects.create(customer=customer)
