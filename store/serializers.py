@@ -1,6 +1,3 @@
-from decimal import Decimal
-from itertools import product
-from xml.dom.minidom import ReadOnlySequentialNamedNodeMap
 from store.models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, Review
 from rest_framework import serializers
 
@@ -53,6 +50,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
     
@@ -121,6 +119,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'customer', 'placed_at', 'payment_status', 'orderitems']
+
 
 class CreateOrderSerializer(serializers.Serializer):
     cart_id = serializers.IntegerField()
