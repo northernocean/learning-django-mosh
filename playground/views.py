@@ -8,7 +8,7 @@ def say_hello(request):
         message.attach_file('playground/static/images/turtle.jpeg')
         message.send()
     except BadHeaderError:
-        # send_mail can throw errors if the mail is attempted to be modified (?)
-        pass
+        # catching errors if emails are attempted to be "spoofed" - TODO: learn more
+        print("Error: bad headers")
     # if email was successful - display the hello world page
     return render(request, 'hello.html', {'name': 'Mosh'})
