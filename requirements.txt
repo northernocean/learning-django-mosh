@@ -121,6 +121,7 @@ vine=5.0.0=pyhd8ed1ab_1
 wcwidth=0.2.5=pyh9f0ad1d_2
 werkzeug=2.2.2=pyhd8ed1ab_0
 wheel=0.37.1=pyhd3eb1b0_0
+whitenoise=6.2.0=pyhd8ed1ab_0
 wrapt=1.14.1=pypi_0
 xz=5.2.5=h7f8727e_1
 zeromq=4.3.4=h9c3ff4c_1
